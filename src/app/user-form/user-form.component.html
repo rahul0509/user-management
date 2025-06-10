@@ -1,0 +1,11 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <input formControlName="firstName" placeholder="First Name" />
+  <input formControlName="lastName" placeholder="Last Name" />
+  <input formControlName="email" placeholder="Email" />
+  <select formControlName="country">
+    <option *ngFor="let country of countries$ | async" [value]="country">
+      {{ country }}
+    </option>
+  </select>
+  <button type="submit">Submit</button>
+</form>

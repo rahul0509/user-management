@@ -1,0 +1,34 @@
+<input
+  type="text"
+  [(ngModel)]="filterTextValue"
+  (ngModelChange)="filterText.set($event)"
+  placeholder="Filter users..."
+/>
+<button (click)="clearFilter()">Clear</button>
+<button (click)="goToCreate()">Create New User</button>
+<dx-data-grid
+    [dataSource]="filteredUsers()"
+    [showBorders]="true"
+    [allowColumnResizing]="true"
+    >
+  <dxo-paging [pageSize]="10"></dxo-paging>
+  <dxo-pager
+    [showPageSizeSelector]="true"
+    [allowedPageSizes]="[5, 10, 20]"
+    [showInfo]="true"
+  ></dxo-pager>
+  <dxi-column dataField="firstName" caption="First Name"></dxi-column>
+  <dxi-column dataField="lastName" caption="Last Name"></dxi-column>
+  <dxi-column dataField="email" caption="Email"></dxi-column>
+  <dxi-column dataField="country" caption="Country"></dxi-column>
+  <dxi-column
+    dataField="createdAt"
+    caption="Created At"
+    [calculateCellValue]="formatDate"
+  ></dxi-column>
+  <dxi-column caption="Actions" [cellTemplate]="actionCell"></dxi-column>
+  <ng-template #actionCell let-data>
+    <button (click)="goToEdit(data.data.email)">Edit</button>
+    <button (click)="deleteUser(data.data.email)">Delete</button>
+  </ng-template>
+</dx-data-grid>
