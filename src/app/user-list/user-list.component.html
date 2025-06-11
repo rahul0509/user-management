@@ -1,16 +1,20 @@
-<input
-  type="text"
-  [(ngModel)]="filterTextValue"
-  (ngModelChange)="filterText.set($event)"
+<dx-text-box
+  [(value)]="filterTextValue"
   placeholder="Filter users..."
-/>
-<button (click)="clearFilter()">Clear</button>
-<button (click)="goToCreate()">Create New User</button>
+  width="300"
+  [showClearButton]="true"
+  [showMaskMode]="'always'"
+  valueChangeEvent="keyup"
+  (onValueChanged)="onFilterChange($event)"
+>
+</dx-text-box>
+<dx-button (click)="clearFilter()">Clear</dx-button>
+<dx-button (click)="goToCreate()">Create New User</dx-button>
 <dx-data-grid
-    [dataSource]="filteredUsers()"
-    [showBorders]="true"
-    [allowColumnResizing]="true"
-    >
+  [dataSource]="filteredUsers()"
+  [showBorders]="true"
+  [allowColumnResizing]="true"
+>
   <dxo-paging [pageSize]="10"></dxo-paging>
   <dxo-pager
     [showPageSizeSelector]="true"
@@ -26,9 +30,31 @@
     caption="Created At"
     [calculateCellValue]="formatDate"
   ></dxi-column>
-  <dxi-column caption="Actions" [cellTemplate]="actionCell"></dxi-column>
-  <ng-template #actionCell let-data>
-    <button (click)="goToEdit(data.data.email)">Edit</button>
-    <button (click)="deleteUser(data.data.email)">Delete</button>
-  </ng-template>
+  <dxi-column
+    caption="Actions"
+    [allowResizing]="false"
+    cellTemplate="actionCell"
+  ></dxi-column>
+  <ng-container *dxTemplate="let data of 'actionCell'">
+    <div class="action-buttons">
+      <dx-button
+        icon="edit"
+        stylingMode="contained"
+        type="default"
+        (onClick)="goToEdit(data.data.email)"
+        hint="Edit User"
+      >
+      </dx-button>
+
+      <dx-button
+        icon="trash"
+        stylingMode="outlined"
+        type="danger"
+        class="ml-2"
+        (onClick)="deleteUser(data.data.email)"
+        hint="Delete User"
+      >
+      </dx-button>
+    </div>
+  </ng-container>
 </dx-data-grid>

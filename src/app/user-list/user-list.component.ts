@@ -6,20 +6,25 @@ import { User } from '../models/user.model';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.scss'
+  styleUrl: './user-list.component.scss',
 })
 export class UserListComponent {
   users = signal<User[]>([]);
   filterText = signal('');
-  filteredUsers = computed(() => {
-    return this.users().filter(u =>
-      (u.firstName + ' ' + u.lastName).toLowerCase().includes(this.filterText().toLowerCase())
+    filteredUsers = computed(() => {
+    return this.users().filter((u) =>
+      (u.firstName + ' ' + u.lastName)
+        .toLowerCase()
+        .includes(this.filterText().toLowerCase())
     );
   });
 
   filterTextValue = '';
 
-  constructor(private userStoreService: UserStoreService, private router: Router) {}
+  constructor(
+    private userStoreService: UserStoreService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.users.set(this.userStoreService.users());
@@ -47,4 +52,7 @@ export class UserListComponent {
     this.router.navigate(['/edit', email]);
   }
 
+  onFilterChange(e: any) {
+    this.filterText.set(e.value || '');
+  }
 }

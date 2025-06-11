@@ -8,9 +8,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserListComponent } from './user-list/user-list.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
-import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxFormModule, DxSelectBoxModule, DxTemplateModule, DxTextBoxModule } from 'devextreme-angular';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,11 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     DxDataGridModule,
     DxButtonModule,
+    DxTemplateModule,
+    DxTextBoxModule,
+    DxFormModule,
+    DxSelectBoxModule,
+    CommonModule,
     HttpClientModule
   ],
   providers: [],
