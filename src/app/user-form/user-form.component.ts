@@ -15,9 +15,12 @@ export class UserFormComponent {
   @Output() formSubmit = new EventEmitter<User>();
 
   userForm!: FormGroup;
-  countries$: Observable<string[]> = of([]);
+  countries$: Observable<string[]>;
+  submitted = false;
 
-  constructor(private fb: FormBuilder, private countryService: CountryService) {}
+  constructor(private fb: FormBuilder, private countryService: CountryService) {
+    this.countries$ = of([]);
+  }
 
   ngOnInit() {
     this.userForm = this.fb.group({
@@ -33,6 +36,7 @@ export class UserFormComponent {
   }
 
   onSubmit() {
+     this.submitted = true;
     if (this.userForm.valid) {
       const data = {
         ...this.userForm.value,

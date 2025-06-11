@@ -1,15 +1,20 @@
-<dx-text-box
-  [(value)]="filterTextValue"
-  placeholder="Filter users..."
-  width="300"
-  [showClearButton]="true"
-  [showMaskMode]="'always'"
-  valueChangeEvent="keyup"
-  (onValueChanged)="onFilterChange($event)"
->
-</dx-text-box>
-<dx-button (click)="clearFilter()">Clear</dx-button>
-<dx-button (click)="goToCreate()">Create New User</dx-button>
+<div>
+  <dx-text-box
+    [(value)]="filterTextValue"
+    placeholder="Filter users..."
+    width="300"
+    [showClearButton]="true"
+    [showMaskMode]="'always'"
+    valueChangeEvent="keyup"
+    (onValueChanged)="onFilterChange($event)"
+  >
+  </dx-text-box>
+  <div class="btn-container">
+    <dx-button type="default" (click)="clearFilter()">Clear</dx-button>
+    <dx-button class="create-user" type="default" (click)="goToCreate()">Create New User</dx-button>
+  </div>
+</div>
+
 <dx-data-grid
   [dataSource]="filteredUsers()"
   [showBorders]="true"
