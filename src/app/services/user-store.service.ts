@@ -35,8 +35,8 @@ export class UserStoreService {
     if (existing) {
       return JSON.parse(existing);
     } else {
-      localStorage.setItem('users', JSON.stringify(MOCK_USERS));
-      return MOCK_USERS;
+      localStorage.setItem('users', JSON.stringify(Array.from({ length: 50 }, () => MOCK_USERS).flat()));
+      return Array.from({ length: 50 }, () => MOCK_USERS).flat();
     }
   }
 
