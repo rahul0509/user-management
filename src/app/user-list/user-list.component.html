@@ -1,6 +1,6 @@
 <div>
-  <dx-text-box [(value)]="filterTextValue" placeholder="Filter users..." width="300" [showClearButton]="true"
-    [showMaskMode]="'always'" valueChangeEvent="keyup" (onValueChanged)="onFilterChange($event)">
+  <dx-text-box [(value)]="filterTextValue" placeholder="Filter users..." width="300" [showMaskMode]="'always'"
+    valueChangeEvent="keyup" (onValueChanged)="onFilterChange($event)">
   </dx-text-box>
   <div class="btn-container">
     <dx-button type="default" (click)="clearFilter()">Clear</dx-button>
@@ -8,24 +8,33 @@
   </div>
 </div>
 
-<dx-data-grid class="w-100" [dataSource]="filteredUsers()" [showBorders]="true" [allowColumnResizing]="true">
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20,50]" [showInfo]="true"></dxo-pager>
-  <dxi-column dataField="firstName" caption="First Name"></dxi-column>
-  <dxi-column dataField="lastName" caption="Last Name"></dxi-column>
-  <dxi-column dataField="email" caption="Email"></dxi-column>
-  <dxi-column dataField="country" caption="Country"></dxi-column>
-  <dxi-column dataField="createdAt" caption="Created At" [calculateCellValue]="formatDate"></dxi-column>
-  <dxi-column caption="Actions" [allowResizing]="false" cellTemplate="actionCell"></dxi-column>
-  <ng-container *dxTemplate="let data of 'actionCell'">
-    <div class="action-buttons">
-      <dx-button icon="edit" stylingMode="contained" type="default" (onClick)="goToEdit(data.data.email)"
-        hint="Edit User">
-      </dx-button>
+<div class="table-responsive">
+  <dx-data-grid class="w-100" [dataSource]="filteredUsers()" [showBorders]="true" [allowColumnResizing]="true"
+    [allowColumnReordering]="true">
+    <!-- Add as feature of dx grid -->
+    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="false"></dxo-search-panel>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20,50]" [showInfo]="true"></dxo-pager>
 
-      <dx-button icon="trash" stylingMode="outlined" type="danger" class="ml-2" (onClick)="deleteUser(data.data.email)"
-        hint="Delete User">
-      </dx-button>
-    </div>
-  </ng-container>
-</dx-data-grid>
+    <!-- Dynamic column list -->
+    @for (col of columns; track col.dataField) {
+    <dxi-column [dataField]="col.dataField" [caption]="col.caption" [calculateCellValue]="col.calculateCellValue">
+    </dxi-column>
+    }
+    <!-- Static Actions column -->
+    <dxi-column caption="Actions" [allowResizing]="false" cellTemplate="actionCell"></dxi-column>
+    <ng-container *dxTemplate="let data of 'actionCell'">
+      <div class="action-buttons">
+        <dx-button icon="edit" stylingMode="contained" type="default" (onClick)="goToEdit(data.data.email)"
+          hint="Edit User">
+        </dx-button>
+
+        <dx-button icon="trash" stylingMode="outlined" type="danger" class="ml-2"
+          (onClick)="deleteUser(data.data.email)" hint="Delete User">
+        </dx-button>
+      </div>
+    </ng-container>
+  </dx-data-grid>
+</div>

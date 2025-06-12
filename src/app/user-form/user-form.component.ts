@@ -23,8 +23,8 @@ export class UserFormComponent {
 
   public ngOnInit(): void {
     this.userForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z\s]+$/)]],
       email: ['', [Validators.required, Validators.email]],
       country: ['', Validators.required],
     });

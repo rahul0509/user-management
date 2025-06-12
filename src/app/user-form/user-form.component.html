@@ -5,8 +5,9 @@
       <input id="firstName" formControlName="firstName" class="form-control" placeholder="First Name" [ngClass]="{
           'is-invalid': submitted && userForm.controls['firstName'].invalid
         }" />
-      <div *ngIf="submitted && userForm.controls['firstName'].hasError('required')" class="invalid-feedback">
-        First name is required.
+      <div *ngIf="submitted && userForm.controls['firstName'].errors" class="invalid-feedback">
+        <div *ngIf="userForm.controls['lastName'].hasError('required')">First Name is required.</div>
+        <div *ngIf="userForm.controls['lastName'].hasError('pattern')">First name numbers and special characters are not allowed.</div>
       </div>
     </div>
 
@@ -15,8 +16,9 @@
       <input id="lastName" formControlName="lastName" class="form-control" placeholder="Last Name" [ngClass]="{
           'is-invalid': submitted && userForm.controls['lastName'].invalid
         }" />
-      <div *ngIf="submitted && userForm.controls['lastName'].hasError('required')" class="invalid-feedback">
-        Last Name is required.
+      <div *ngIf="submitted && userForm.controls['lastName'].errors" class="invalid-feedback">
+        <div *ngIf="userForm.controls['lastName'].hasError('required')">Last Name is required.</div>
+        <div *ngIf="userForm.controls['lastName'].hasError('pattern')">Last name numbers and special characters are not allowed.</div>
       </div>
     </div>
   </div>
@@ -27,9 +29,11 @@
       <input id="email" formControlName="email" type="email" class="form-control" placeholder="Email" [ngClass]="{
           'is-invalid': submitted && userForm.controls['email'].invalid
         }" />
-      <div *ngIf="submitted && userForm.controls['email'].hasError('required')" class="invalid-feedback">
-        Email is required.
+      <div *ngIf="submitted && userForm.controls['email'].errors" class="invalid-feedback">
+        <div *ngIf="userForm.controls['email'].hasError('required')">Email is required.</div>
+        <div *ngIf="userForm.controls['email'].hasError('email')">Enter a valid email address.</div>
       </div>
+
     </div>
 
     <div class="col-md-6">
