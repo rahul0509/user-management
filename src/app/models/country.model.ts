@@ -1,19 +1,18 @@
 export interface Country {
-  res: any
-  name: CountryName
+  name: CountryName;
 }
 
 export interface CountryName {
-  common: string
-  official: string
-  nativeName: NativeName
+  common: string;
+  official: string;
+  nativeName: NativeName;
 }
 
 export interface NativeName {
-  fra: Fra
+  fra: Fra;
 }
 
 export interface Fra {
-  official: string
-  common: string
+  official: string;
+  common: string;
 }

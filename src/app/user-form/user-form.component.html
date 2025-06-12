@@ -2,38 +2,20 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <label for="firstName" class="form-label">First Name</label>
-      <input
-        id="firstName"
-        formControlName="firstName"
-        class="form-control"
-        placeholder="First Name"
-        [ngClass]="{
+      <input id="firstName" formControlName="firstName" class="form-control" placeholder="First Name" [ngClass]="{
           'is-invalid': submitted && userForm.controls['firstName'].invalid
-        }"
-      />
-      <div
-        *ngIf="submitted && userForm.controls['firstName'].hasError('required')"
-        class="invalid-feedback"
-      >
+        }" />
+      <div *ngIf="submitted && userForm.controls['firstName'].hasError('required')" class="invalid-feedback">
         First name is required.
       </div>
     </div>
 
     <div class="col-md-6">
       <label for="lastName" class="form-label">Last Name</label>
-      <input
-        id="lastName"
-        formControlName="lastName"
-        class="form-control"
-        placeholder="Last Name"
-        [ngClass]="{
+      <input id="lastName" formControlName="lastName" class="form-control" placeholder="Last Name" [ngClass]="{
           'is-invalid': submitted && userForm.controls['lastName'].invalid
-        }"
-      />
-      <div
-        *ngIf="submitted && userForm.controls['lastName'].hasError('required')"
-        class="invalid-feedback"
-      >
+        }" />
+      <div *ngIf="submitted && userForm.controls['lastName'].hasError('required')" class="invalid-feedback">
         Last Name is required.
       </div>
     </div>
@@ -42,27 +24,17 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <label for="email" class="form-label">Email</label>
-      <input
-        id="email"
-        formControlName="email"
-        type="email"
-        class="form-control"
-        placeholder="Email"
-        [ngClass]="{
+      <input id="email" formControlName="email" type="email" class="form-control" placeholder="Email" [ngClass]="{
           'is-invalid': submitted && userForm.controls['email'].invalid
-        }"
-      />
-      <div
-        *ngIf="submitted && userForm.controls['email'].hasError('required')"
-        class="invalid-feedback"
-      >
+        }" />
+      <div *ngIf="submitted && userForm.controls['email'].hasError('required')" class="invalid-feedback">
         Email is required.
       </div>
     </div>
 
     <div class="col-md-6">
       <label for="country" class="form-label">Country</label>
-      <select id="country" formControlName="country" class="form-select"   [ngClass]="{
+      <select id="country" formControlName="country" class="form-select" [ngClass]="{
           'is-invalid': submitted && userForm.controls['country'].invalid
         }">
         <option value="">Select a country</option>
@@ -70,10 +42,7 @@
           {{ country }}
         </option>
       </select>
-       <div
-        *ngIf="submitted && userForm.controls['country'].hasError('required')"
-        class="invalid-feedback"
-      >
+      <div *ngIf="submitted && userForm.controls['country'].hasError('required')" class="invalid-feedback">
         Country is required.
       </div>
     </div>

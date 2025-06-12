@@ -6,26 +6,29 @@ import { UserStoreService } from '../services/user-store.service';
 @Component({
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
-  styleUrl: './update-user.component.scss'
+  styleUrl: './update-user.component.scss',
 })
 export class UpdateUserComponent {
+  public user: User | null = null;
 
-  user: User | null = null;
+  public constructor(
+    private route: ActivatedRoute,
+    private userStore: UserStoreService,
+    private router: Router
+  ) {}
 
-  constructor(private route: ActivatedRoute, private userStore: UserStoreService, private router: Router) {}
-
-  ngOnInit() {
-    const email = this.route.snapshot.paramMap.get('email');
+  public ngOnInit(): void {
+    const email: string | null = this.route.snapshot.paramMap.get('email');
     if (email) {
-      const found = this.userStore.getUser(email);
-      if (found) this.user = found;
+      const found: User | undefined = this.userStore.getUser(email);
+      if (found) {
+        this.user = found;
+      }
     }
   }
 
-  handleUpdate(user: User) {
+  public handleUpdate(user: User): void {
     this.userStore.updateUser(user);
     this.router.navigate(['/']);
   }
-
-
 }

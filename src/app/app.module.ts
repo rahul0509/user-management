@@ -8,7 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserListComponent } from './user-list/user-list.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
-import { DxButtonModule, DxDataGridModule, DxFormModule, DxSelectBoxModule, DxTemplateModule, DxTextBoxModule } from 'devextreme-angular';
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxFormModule,
+  DxSelectBoxModule,
+  DxTemplateModule,
+  DxTextBoxModule,
+} from 'devextreme-angular';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -19,12 +26,12 @@ import { CommonModule } from '@angular/common';
     UserFormComponent,
     UserListComponent,
     CreateUserComponent,
-    UpdateUserComponent
+    UpdateUserComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     FormsModule,
     DxDataGridModule,
     DxButtonModule,
@@ -33,9 +40,9 @@ import { CommonModule } from '@angular/common';
     DxFormModule,
     DxSelectBoxModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

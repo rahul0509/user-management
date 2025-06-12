@@ -1,7 +1,9 @@
-import { Component, computed, signal, ViewChild } from '@angular/core';
+import { Component, computed, EventEmitter, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { UserStoreService } from '../services/user-store.service';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
+import { ValueChangedEvent } from 'devextreme/ui/text_box';
+import { ValueChangedInfo } from 'devextreme/ui/editor/editor';
 
 @Component({
   selector: 'app-user-list',
@@ -10,49 +12,49 @@ import { User } from '../models/user.model';
 })
 export class UserListComponent {
   users = signal<User[]>([]);
-  filterText = signal('');
-    filteredUsers = computed(() => {
-    return this.users().filter((u) =>
-      (u.firstName + ' ' + u.lastName)
+  private filterText: WritableSignal<string> = signal('');
+  public filteredUsers: Signal<User[]> = computed((): User[] => {
+    return this.users().filter((user: User): unknown =>
+      (user.firstName + ' ' + user.lastName)
         .toLowerCase()
         .includes(this.filterText().toLowerCase())
     );
   });
 
-  filterTextValue = '';
+  public filterTextValue: string = '';
 
-  constructor(
+  public constructor(
     private userStoreService: UserStoreService,
     private router: Router
   ) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.users.set(this.userStoreService.users());
   }
 
-  formatDate(user: User): string {
+  public formatDate(user: User): string {
     return new Date(user.createdAt).toLocaleDateString();
   }
 
-  deleteUser(email: string) {
+  public deleteUser(email: string): void {
     this.userStoreService.deleteUser(email);
     this.users.set(this.userStoreService.users());
   }
 
-  clearFilter() {
+  public clearFilter(): void {
     this.filterText.set('');
     this.filterTextValue = '';
   }
 
-  goToCreate() {
+  public goToCreate(): void {
     this.router.navigate(['/create']);
   }
 
-  goToEdit(email: string) {
+  public goToEdit(email: string): void {
     this.router.navigate(['/edit', email]);
   }
 
-  onFilterChange(e: any) {
-    this.filterText.set(e.value || '');
+  public onFilterChange(searchVal: ValueChangedEvent): void {
+    this.filterText.set(searchVal.value || '');
   }
 }

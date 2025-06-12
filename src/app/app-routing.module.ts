@@ -7,11 +7,11 @@ import { UserListComponent } from './user-list/user-list.component';
 const routes: Routes = [
   { path: '', component: UserListComponent },
   { path: 'create', component: CreateUserComponent },
-  { path: 'edit/:email', component: UpdateUserComponent }
+  { path: 'edit/:email', component: UpdateUserComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
