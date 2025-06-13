@@ -1,45 +1,53 @@
-import { Injectable, signal, computed, Signal, WritableSignal } from '@angular/core';
+import {
+  Injectable,
+  signal,
+  computed,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { User } from '../models/user.model';
 
-const MOCK_USERS: User[] = [
-  {
-    firstName: 'Alice',
-    lastName: 'Johnson',
-    email: 'alice.johnson@example.com',
-    country: 'Canada',
-    createdAt: new Date('2023-06-01T10:00:00Z').toISOString(),
-  },
-  {
-    firstName: 'Bob',
-    lastName: 'Smith',
-    email: 'bob.smith@example.com',
-    country: 'Germany',
-    createdAt: new Date('2023-05-15T15:30:00Z').toISOString(),
-  },
-  {
-    firstName: 'Charlie',
-    lastName: 'Nguyen',
-    email: 'charlie.nguyen@example.com',
-    country: 'Vietnam',
-    createdAt: new Date('2023-04-20T09:45:00Z').toISOString(),
-  },
-];
+const generateMockUsers = (count: number): User[] => {
+  const countries = [
+    'India',
+    'United States',
+    'United Kingdom',
+    'Canada',
+    'Germany',
+    'France',
+    'Australia',
+  ];
+  const users: User[] = [];
+
+  for (let i = 1; i <= count; i++) {
+    users.push({
+      firstName: `User${i}`,
+      lastName: `Test${i}`,
+      email: `user${i}@example.com`,
+      country: countries[i % countries.length],
+      createdAt: new Date(2023, Math.floor(i / 5), (i % 28) + 1).toISOString(),
+    });
+  }
+
+  return users;
+};
+
+const MOCK_USERS: User[] = generateMockUsers(50);
 
 @Injectable({ providedIn: 'root' })
 export class UserStoreService {
-  private usersSignal: WritableSignal<User[]> = signal<User[]>(this.loadUsers());
-  public readonly  users: Signal<User[]> = computed(() => this.usersSignal());
+  private usersSignal: WritableSignal<User[]> = signal<User[]>(
+    this.loadUsers()
+  );
+  public readonly users: Signal<User[]> = computed(() => this.usersSignal());
 
   private loadUsers(): User[] {
     const existing: string | null = localStorage.getItem('users');
     if (existing) {
       return JSON.parse(existing);
-    } else {
-      localStorage.setItem(
-        'users',
-        JSON.stringify(Array.from({ length: 50 }, () => MOCK_USERS).flat())
-      );
-      return Array.from({ length: 50 }, () => MOCK_USERS).flat();
+    } else {  
+      localStorage.setItem('users', JSON.stringify(MOCK_USERS));
+      return MOCK_USERS;
     }
   }
 
@@ -53,7 +61,7 @@ export class UserStoreService {
     this.saveUsers(updated);
   }
 
-  public updateUser(updated: User): void{
+  public updateUser(updated: User): void {
     const updatedUsers = this.usersSignal().map((user) =>
       user.email === updated.email ? updated : user
     );

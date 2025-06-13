@@ -1,60 +1,69 @@
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="container mt-4">
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <label for="firstName" class="form-label">First Name</label>
-      <input id="firstName" formControlName="firstName" class="form-control" placeholder="First Name" [ngClass]="{
-          'is-invalid': submitted && userForm.controls['firstName'].invalid
-        }" />
-      <div *ngIf="submitted && userForm.controls['firstName'].errors" class="invalid-feedback">
-        <div *ngIf="userForm.controls['lastName'].hasError('required')">First Name is required.</div>
-        <div *ngIf="userForm.controls['lastName'].hasError('pattern')">First name numbers and special characters are not allowed.</div>
-      </div>
-    </div>
+<!-- Utilize Different kinds of forms-->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
 
-    <div class="col-md-6">
-      <label for="lastName" class="form-label">Last Name</label>
-      <input id="lastName" formControlName="lastName" class="form-control" placeholder="Last Name" [ngClass]="{
-          'is-invalid': submitted && userForm.controls['lastName'].invalid
-        }" />
-      <div *ngIf="submitted && userForm.controls['lastName'].errors" class="invalid-feedback">
-        <div *ngIf="userForm.controls['lastName'].hasError('required')">Last Name is required.</div>
-        <div *ngIf="userForm.controls['lastName'].hasError('pattern')">Last name numbers and special characters are not allowed.</div>
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">{{ user ? 'Update User' : 'Create User' }}</h5>
+        </div>
+
+        <div class="card-body">
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" id="firstName" formControlName="firstName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && userForm.controls['firstName'].invalid }" />
+                <div *ngIf="submitted && userForm.controls['firstName'].errors" class="invalid-feedback">
+                  <div *ngIf="userForm.controls['firstName'].hasError('required')">First name is required.</div>
+                  <div *ngIf="userForm.controls['firstName'].hasError('pattern')">Only letters and spaces allowed.</div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" id="lastName" formControlName="lastName" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && userForm.controls['lastName'].invalid }" />
+                <div *ngIf="submitted && userForm.controls['lastName'].errors" class="invalid-feedback">
+                  <div *ngIf="userForm.controls['lastName'].hasError('required')">Last name is required.</div>
+                  <div *ngIf="userForm.controls['lastName'].hasError('pattern')">Only letters and spaces allowed.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" formControlName="email" class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && userForm.controls['email'].invalid }" />
+              <div *ngIf="submitted && userForm.controls['email'].errors" class="invalid-feedback">
+                <div *ngIf="userForm.controls['email'].hasError('required')">Email is required.</div>
+                <div *ngIf="userForm.controls['email'].hasError('pattern')">Enter a valid email address.</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="country" class="form-label">Country</label>
+              <select id="country" formControlName="country" class="form-select"
+                [ngClass]="{ 'is-invalid': submitted && userForm.controls['country'].invalid }">
+                <option value="">Select a country</option>
+                <option *ngFor="let country of countries$ | async" [value]="country">{{ country }}</option>
+              </select>
+              <div *ngIf="submitted && userForm.controls['country'].hasError('required')" class="invalid-feedback">
+                Country is required.
+              </div>
+            </div>
+
+            <div class="text-end">
+              <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+              <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+
+          </form>
+        </div>
       </div>
+
     </div>
   </div>
-
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <label for="email" class="form-label">Email</label>
-      <input id="email" formControlName="email" type="email" class="form-control" placeholder="Email" [ngClass]="{
-          'is-invalid': submitted && userForm.controls['email'].invalid
-        }" />
-      <div *ngIf="submitted && userForm.controls['email'].errors" class="invalid-feedback">
-        <div *ngIf="userForm.controls['email'].hasError('required')">Email is required.</div>
-        <div *ngIf="userForm.controls['email'].hasError('email')">Enter a valid email address.</div>
-      </div>
-
-    </div>
-
-    <div class="col-md-6">
-      <label for="country" class="form-label">Country</label>
-      <select id="country" formControlName="country" class="form-select" [ngClass]="{
-          'is-invalid': submitted && userForm.controls['country'].invalid
-        }">
-        <option value="">Select a country</option>
-        <option *ngFor="let country of countries$ | async" [value]="country">
-          {{ country }}
-        </option>
-      </select>
-      <div *ngIf="submitted && userForm.controls['country'].hasError('required')" class="invalid-feedback">
-        Country is required.
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col text-end">
-      <button type="submit" class="btn btn-success">Submit</button>
-    </div>
-  </div>
-</form>
+</div>

@@ -1,18 +1,20 @@
-<div>
-  <dx-text-box [(value)]="filterTextValue" placeholder="Filter users..." width="300" [showMaskMode]="'always'"
-    valueChangeEvent="keyup" (onValueChanged)="onFilterChange($event)">
+<div class="d-flex align-items-center gap-2 mb-3">
+  <dx-text-box [(value)]="filterTextValue" placeholder="Filter users..." width="300" valueChangeEvent="keyup"
+    (onValueChanged)="onFilterChange($event)">
   </dx-text-box>
-  <div class="btn-container">
-    <dx-button type="default" (click)="clearFilter()">Clear</dx-button>
-    <dx-button class="create-user" type="default" (click)="goToCreate()">Create New User</dx-button>
-  </div>
+
+  <dx-button text="Clear" type="default" stylingMode="outlined" (onClick)="clearFilter()">Clear</dx-button>
+</div>
+
+<div class="d-flex justify-content-end mb-3">
+  <dx-button class="create-user" type="default" stylingMode="contained" text="Create New User" (onClick)="goToCreate()">Create New User
+  </dx-button>
 </div>
 
 <div class="table-responsive">
   <dx-data-grid class="w-100" [dataSource]="filteredUsers()" [showBorders]="true" [allowColumnResizing]="true"
     [allowColumnReordering]="true">
     <!-- Add as feature of dx grid -->
-    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="false"></dxo-search-panel>
     <dxo-filter-row [visible]="true"></dxo-filter-row>
     <dxo-header-filter [visible]="true"></dxo-header-filter>
     <dxo-paging [pageSize]="10"></dxo-paging>
@@ -32,9 +34,36 @@
         </dx-button>
 
         <dx-button icon="trash" stylingMode="outlined" type="danger" class="ml-2"
-          (onClick)="deleteUser(data.data.email)" hint="Delete User">
+          (onClick)="confirmDelete(data.data)" hint="Delete User">
         </dx-button>
       </div>
     </ng-container>
   </dx-data-grid>
 </div>
+
+<dx-popup
+  [(visible)]="showDeletePopup"
+  [showTitle]="true"
+  title="Confirm Delete"
+  [width]="400"
+  [height]="250"
+  [dragEnabled]="false"
+>
+  <div class="p-3">
+    <p>Are you sure you want to delete <strong>{{ userToDelete?.firstName }} {{ userToDelete?.lastName }}</strong>?</p>
+    <div class="text-end mt-4">
+      <dx-button
+        text="Cancel"
+        stylingMode="outlined"
+        class="me-2"
+        (onClick)="closePopup()">
+      </dx-button>
+      <dx-button
+        text="Delete"
+        type="danger"
+        stylingMode="contained"
+        (onClick)="proceedDelete()">
+      </dx-button>
+    </div>
+  </div>
+</dx-popup>

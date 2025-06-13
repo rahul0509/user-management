@@ -19,8 +19,10 @@ import { Column } from 'devextreme/ui/data_grid';
   styleUrl: './user-list.component.scss',
 })
 export class UserListComponent {
-  users = signal<User[]>([]);
   private filterText: WritableSignal<string> = signal('');
+  public showDeletePopup: boolean = false;
+  public userToDelete: User | null = null;
+  public users = signal<User[]>([]);
   public filteredUsers: Signal<User[]> = computed((): User[] => {
     return this.users().filter((user: User): unknown =>
       (user.firstName + ' ' + user.lastName)
@@ -56,11 +58,6 @@ export class UserListComponent {
     return new Date(user.createdAt).toLocaleDateString();
   }
 
-  public deleteUser(email: string): void {
-    this.userStoreService.deleteUser(email);
-    this.users.set(this.userStoreService.users());
-  }
-
   public clearFilter(): void {
     this.filterText.set('');
     this.filterTextValue = '';
@@ -76,5 +73,23 @@ export class UserListComponent {
 
   public onFilterChange(searchVal: ValueChangedEvent): void {
     this.filterText.set(searchVal.value || '');
+  }
+
+  public confirmDelete(user: User): void {
+    this.userToDelete = user;
+    this.showDeletePopup = true;
+  }
+
+  public proceedDelete(): void{
+    if (this.userToDelete) {
+      this.userStoreService.deleteUser(this.userToDelete.email);
+      this.users.set(this.userStoreService.users());
+      this.closePopup();
+    }
+  }
+
+  public closePopup(): void {
+    this.showDeletePopup = false;
+    this.userToDelete = null;
   }
 }
